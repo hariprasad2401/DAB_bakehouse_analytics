@@ -28,7 +28,7 @@ targets:
       catalog: dev_dab_bakehouse
       schema: dev
     presets:
-      name_prefix: dev_
+      name_prefix: dev_${workspace.current_user.short_name}
   prod:
     mode: production
     workspace:
@@ -38,8 +38,7 @@ targets:
     variables:
       catalog: prod_dab_bakehouse
       schema: prod
-    presets:
-      name_prefix: prod_
+      
     permissions:
       - user_name: hariprasadkulkarni2130@gmail.com
         level: CAN_MANAGE
