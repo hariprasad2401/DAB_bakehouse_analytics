@@ -1,0 +1,39 @@
+# A sample job for dab_bakehouse_analytics.
+
+resources:
+  jobs:
+    sales_franchise_job:
+      name: sales_franchise
+
+      trigger:
+        # Run this job every day, exactly one day from the last run; see https://docs.databricks.com/api/workspace/jobs/create#trigger
+        periodic:
+          interval: 1
+          unit: DAYS
+
+      #email_notifications:
+      #  on_failure:
+      #    - your_email@example.com
+
+      parameters:
+        - name: catalog
+          default: ${var.catalog}
+        - name: schema
+          default: ${var.schema}
+      
+      tasks:
+        - task_key: customer_transactions
+          notebook_task:
+            notebook_path: ../src/customer_transactions.ipynb
+
+        - task_key: sales_franschise
+          depends_on:
+            - task_key: customer_transactions
+          notebook_task:
+            notebook_path: ../src/sales_franchise.ipynb
+
+
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "5"
